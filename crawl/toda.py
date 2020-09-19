@@ -44,3 +44,46 @@ for i, player_info_soup in enumerate(players_info_soup):
             # TODO kg"削除
             players_info_list[i]["player_weight"] = player_status_list[1]
 print(players_info_list)
+
+players_start_win_percent_dict = {"flying": None, "delay": None, "average_start": None,
+                                  "world_area_in_first": None, "world_area_in_second": None,
+                                  "world_area_in_third": None,
+                                  "local_area_in_first": None, "local_area_in_second": None,
+                                  "local_area_in_third": None}
+players_start_win_percent_list = []
+machine_win_percent_dict_dict = {"motor_no": None, "motor_in_second": None, "motor_in_third": None,
+                                 "boat_no": None, "boat_in_second": None, "boat_in_third": None}
+machine_win_percent_dict_list = []
+# start_status, win_percent
+for player_index, player_info_soup in enumerate(players_info_soup):
+    for type_index, tmp in enumerate(player_info_soup.find_all("td", {"class": "is-lineH2", "rowspan": "4"})):
+        # print(player_index)
+        # print(type_index)
+        # print(tmp.get_text().split())
+        if type_index == 0:
+            tmp_dict_1 = players_start_win_percent_dict.copy()
+            tmp_dict_1["flying"] = tmp.get_text().split()[0]
+            tmp_dict_1["delay"] = tmp.get_text().split()[1]
+            tmp_dict_1["average_start"] = tmp.get_text().split()[2]
+            players_start_win_percent_list.append(tmp_dict_1)
+        if type_index == 1:
+            players_start_win_percent_list[player_index]["world_area_in_first"] = tmp.get_text().split()[0]
+            players_start_win_percent_list[player_index]["world_area_in_second"] = tmp.get_text().split()[1]
+            players_start_win_percent_list[player_index]["world_area_in_third"] = tmp.get_text().split()[2]
+        if type_index == 2:
+            players_start_win_percent_list[player_index]["local_area_in_first"] = tmp.get_text().split()[0]
+            players_start_win_percent_list[player_index]["local_area_in_second"] = tmp.get_text().split()[1]
+            players_start_win_percent_list[player_index]["local_area_in_third"] = tmp.get_text().split()[2]
+        if type_index == 3:
+            tmp_dict_2 = machine_win_percent_dict_dict.copy()
+            tmp_dict_2["motor_no"] = tmp.get_text().split()[0]
+            tmp_dict_2["motor_in_second"] = tmp.get_text().split()[1]
+            tmp_dict_2["motor_in_third"] = tmp.get_text().split()[2]
+            machine_win_percent_dict_list.append(tmp_dict_2)
+        if type_index == 4:
+            machine_win_percent_dict_list[player_index]["boat_no"] = tmp.get_text().split()[0]
+            machine_win_percent_dict_list[player_index]["boat_in_second"] = tmp.get_text().split()[1]
+            machine_win_percent_dict_list[player_index]["boat_in_third"] = tmp.get_text().split()[2]
+
+print(players_start_win_percent_list)
+print(machine_win_percent_dict_list)
