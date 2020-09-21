@@ -1,5 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
+import db_insert
 
 # view-source:http://www.boatrace.jp/owpc/pc/race/raceresult?rno=12&jcd=02&hd=20200902
 # base_url = "http://www.boatrace.jp/owpc/pc/race/"
@@ -24,9 +25,8 @@ players_info_list = []
 player_names = [tmp for tmp in soup.find_all("div", {"class": "is-fs18 is-fBold"})]
 for player_name in player_names:
     for name in player_name.find_all("a"):
-        # TODO "全角スぺース"削除
         tmp_dict = players_info_dict.copy()
-        tmp_dict["player_name"] = name.get_text()
+        tmp_dict["player_name"] = " ".join(name.get_text().split())
         players_info_list.append(tmp_dict)
 
 for i, player_info_soup in enumerate(players_info_soup):
@@ -39,11 +39,9 @@ for i, player_info_soup in enumerate(players_info_soup):
             players_info_list[i]["player_area"] = area_list[0]
             players_info_list[i]["player_birth_area"] = area_list[1]
             player_status_list = tmp.get_text().split()[1].split("/")
-            # TODO "歳"削除
-            players_info_list[i]["player_age"] = player_status_list[0]
-            # TODO kg"削除
-            players_info_list[i]["player_weight"] = player_status_list[1]
-print(players_info_list)
+            players_info_list[i]["player_age"] = player_status_list[0].replace("歳", "")
+            players_info_list[i]["player_weight"] = player_status_list[1].replace("kg", "")
+# print(players_info_list)
 
 players_start_win_percent_dict = {"flying": None, "delay": None, "average_start": None,
                                   "world_area_in_first": None, "world_area_in_second": None,
@@ -85,5 +83,23 @@ for player_index, player_info_soup in enumerate(players_info_soup):
             machine_win_percent_dict_list[player_index]["boat_in_second"] = tmp.get_text().split()[1]
             machine_win_percent_dict_list[player_index]["boat_in_third"] = tmp.get_text().split()[2]
 
-print(players_start_win_percent_list)
-print(machine_win_percent_dict_list)
+# print(players_start_win_percent_list)
+# print(machine_win_percent_dict_list)
+
+cursor = db_insert.CONNECTION.cursor()
+print(cursor)
+
+
+def fetch_player_rank_id(player_rank):
+    cursor.execute('SELECT player_rank_id FROM player_rank_master where player_rank = %s', (player_rank,))
+    player_rank_id = cursor.fetchone()
+    print(player_rank_id[0])
+
+
+for tmp in players_info_list:
+    print(tmp)
+    fetch_player_rank_id(tmp["player_rank"])
+    cursor.execute(
+        'insert into player_info (player_number, player_name) values (%s, %s)',
+        (tmp["player_number"], tmp["player_name"]))
+    db_insert.CONNECTION.commit()
