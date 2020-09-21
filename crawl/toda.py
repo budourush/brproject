@@ -100,6 +100,9 @@ for tmp in players_info_list:
     print(tmp)
     fetch_player_rank_id(tmp["player_rank"])
     cursor.execute(
-        'insert into player_info (player_number, player_name) values (%s, %s)',
-        (tmp["player_number"], tmp["player_name"]))
+        'insert into player_info (player_number, player_name, player_area, player_birth_area) values (%s, %s, %s, %s) '
+        'on conflict (player_number)'
+        'do update set player_name = %s, player_area = %s, player_birth_area = %s',
+        (tmp["player_number"], tmp["player_name"], tmp["player_area"], tmp["player_birth_area"],
+         tmp["player_name"], tmp["player_area"], tmp["player_birth_area"]))
     db_insert.CONNECTION.commit()
