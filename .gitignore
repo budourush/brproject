@@ -2,3 +2,5 @@
 crawl/text/
 crawl/__pycache__/
 helloworldproject/helloworldproject/__pycache__/
+helloworldproject/helloworldapp/__pycache__/
+helloworldproject/helloworldapp/migrations/__pycache__/
