@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>JStest</title>
+    <link rel="shortcut icon" href="{% static 'img/favicon.ico' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    {% for user in object_list %}
+    <ul>
+        <li>{{ user.user_id }}</li>
+        <li>{{ user.user_name }}</li>
+    </ul>
+    {% endfor %}
+    <hr>
+    <!--  データpost  -->
+    <form action="/hello" method="post">
+        {% csrf_token %}
+        <div>
+            <label for="name">名前</label>
+            <input type="text" id="name" name="name">
+        </div>
+        <div>
+            <label for="email">メールアドレス</label>
+            <input type="mail" id="email" name="email">
+        </div>
+        <div>
+            <label for="message">内容</label>
+            <textarea id="message" name="message">{{ message }}</textarea>
+        </div>
+        <input type="submit" value="POST送信する">
+    </form>
+    <hr>
+    <!--  イベント確認用  -->
+    <div id="outer">
+        <p>outer要素</p>
+        <a id="inner" href="https://www.jitec.ipa.go.jp/1_11seido/db.html">inner要素</a>
+    </div>
+    <!-- タイマー  -->
+    <input id="btn" type="button" value="タイマー停止" />
+    <div id="result"></div>
+    <form>
+        <label for="isbn">書籍</label>
+        <select id="isbn" name="isbn">
+            <option value="">--選択--</option>
+            <option value="123">JAVA</option>
+            <option value="456">Python</option>
+        </select>
+    </form>
+    <script type="text/javascript" src="{% static 'js/test.js' %}"></script>
+    <a href="{% url 'hello' %}">helloへ</a>
+</body>
+</html>

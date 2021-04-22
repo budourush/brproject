@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>JStest</title>
+    <link rel="shortcut icon" href="{% static 'img/favicon.ico' %}">
+</head>
+<body>
+    {% for user in object_list %}
+    <ul>
+        <li>{{ user.user_id }}</li>
+        <li>{{ user.user_name }}</li>
+    </ul>
+    {% endfor %}
+    <div id="result_text">
+        <p style="color: Red;">設定なし</p>
+    </div>
+    <div id="result_html">
+        <p style="color: Red;">設定なし</p>
+    </div>
+    <!--  入力ボックス  -->
+    <form>
+        <label for="name">名前</label>
+        <input id="name" name="name" type="text" size="30"/>
+        <input id="btn" type="button" value="送信">
+    </form>
+    <!--  チェックボックス  -->
+    <form>
+        <label><input type="checkbox" name='food' value="ラーメン"/>ラーメン</label>
+        <label><input type="checkbox" name='food' value="餃子"/>餃子</label>
+        <label><input type="checkbox" name='food' value="焼肉"/>焼肉</label>
+        <input id="btn2" type="button" value="送信">
+    </form>
+    <script type="text/javascript" src="{% static 'js/test.js' %}"></script>
+</body>
+</html>

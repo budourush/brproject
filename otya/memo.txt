@@ -1,0 +1,8 @@
+# otya_projectを作成
+docker-compose run back django-admin.py startproject otya_project .
+#
+otya_back_runのコンテナは削除する
+
+# migrate
+docker exec -it otya_back_1 sh
+python3 manage.py migrate

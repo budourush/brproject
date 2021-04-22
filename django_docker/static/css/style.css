@@ -1,0 +1,9 @@
+#main{
+    position:absolute;
+    margin:50px;
+    top:250px;
+    left:150px;
+    width:150px;
+    height:150px;
+    border:1px solid Black;
+}

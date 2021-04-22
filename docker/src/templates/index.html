@@ -1,0 +1,27 @@
+{% extends "layout.html" %}
+{% block content %}
+  <!-- Form
+  ================================================== -->
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        {% for k in data[0] %}
+          <th>{{ k }}</th>
+        {% endfor %}
+      </tr>
+    </thead>
+    <tbody>
+        {% for d in data %}
+        <tr>
+            {% for k in d %}
+              {% if k.startswith("image") %}
+              <td><img src="/static/images/{{ d[k] }}.jpg" /></td>
+              {% else %}
+              <td>{{ d[k] }}</td>
+              {% endif %}
+            {% endfor %}
+        </tr>
+    {% endfor %}
+    </tbody>  
+  </table>
+{% endblock %}

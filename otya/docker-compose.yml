@@ -1,0 +1,30 @@
+version: '3'
+
+services:
+
+  db:
+      image: mysql:5.7
+      command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+      ports:
+        - "3306:3306"
+      environment:
+        MYSQL_ROOT_PASSWORD: root
+        MYSQL_DATABASE: todoList
+        MYSQL_USER: user
+        MYSQL_PASSWORD: password
+        TZ: 'Asia/Tokyo'
+      volumes:
+        - ./mysql:/var/lib/mysql
+        - ./sql:/docker-entrypoint-initdb.d
+
+  back:
+      build: ./back
+      command: python manage.py runserver 0.0.0.0:8000
+      volumes:
+        - ./src:/code
+        - ./static:/static
+        - ./back/log:/tmp
+      ports:
+        - "8000:8000"
+      depends_on:
+        - db

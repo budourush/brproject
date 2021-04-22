@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>JStest</title>
+    <link rel="shortcut icon" href="{% static 'img/favicon.ico' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    {% for user in object_list %}
+    <ul>
+        <li>{{ user.user_id }}</li>
+    </ul>
+    {% endfor %}
+    <hr>
+    <!--  データpost  -->
+    <form action="/hello" method="post">
+        {% csrf_token %}
+        <div>
+            <label for="name">名前</label>
+            <input type="text" id="name" name="name">
+        </div>
+        <div>
+            <label for="email">メールアドレス</label>
+            <input type="mail" id="email" name="email">
+        </div>
+        <div>
+            <label for="message">内容</label>
+            <textarea id="message" name="message">name:{{ name }} email:{{ email }} message:{{ message }}</textarea>
+        </div>
+        <input type="submit" value="POST送信する">
+    </form>
+    <hr>
+    <!--  イベント確認用  -->
+    <a href="{% url 'ul' %}">戻る</a>
+    <script type="text/javascript" src="{% static 'js/test.js' %}"></script>
+</body>
+</html>

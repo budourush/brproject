@@ -1,0 +1,29 @@
+version: "3"
+services:
+#  app:
+#    container_name: "lal_app"
+#    build:
+#      context: .
+#      dockerfile: ./Dockerfile
+#    image: python_ml:3.7.2
+#    volumes:
+#      - ./src:/lalapp/src
+#    ports:
+#      - 5000:5000
+#    tty: true
+  mysql:
+    build: ./mysql/    #Dockerfileからビルドすることを示す
+    ports:
+      - "3310:3306"     #mysqlとローカルマシンのポート接続（mysqlの接続ポート：ローカルマシンの接続ポート）
+    volumes:
+      # 初期データを投入するSQLが格納されているdir
+      - ./mysql/db:/docker-entrypoint-initdb.d
+      # 永続化するときにマウントするdir
+      - ./mysql/mysql_data:/var/lib/mysql
+      # logファイルを永続化するdir
+      - ./mysql/mysql_log:/var/log/mysql
+    image: original_mysql_world # イメージの名前
+    environment:
+      - MYSQL_ROOT_PASSWORD=root  #コンテナ内のMySQLを起動する際のパスワードを設定
+      - MYSQL_USER=test
+      - MYSQL_PASSWORD=test

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <!-- Vue.js を読み込む -->
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    <title>vue_test</title>
+    <link rel="shortcut icon" href="{% static 'img/favicon.ico' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    {% for user in object_list %}
+    <ul>
+        <li>{{ user.user_id }}</li>
+        <li>{{ user.user_name }}</li>
+    </ul>
+    {% endfor %}
+    <hr>
+    <!--  user_listへのリンク  -->
+    <a href="https://127.0.0.1:8000/user_list/">user_listへ</a>
+</body>
+</html>

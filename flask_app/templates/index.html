@@ -1,0 +1,85 @@
+{% extends "layout.html" %}
+
+{% block title %}
+Index
+{% endblock %}
+
+{% block headline %}
+{{ title }}
+{% endblock %}
+
+{% block content %}
+<p id="msg">{{ message }}</p>
+<hr>
+
+<!-- Vue.js container -->
+<div id="app" class="m-3">
+    <mycomp />
+</div>
+
+
+<!-- mycomp's template -->
+{% raw %}
+<script type="text/x-template" id="mycomp-template">
+    <div>
+        <div v-bind:class="{alert:true, 'alert-primary':primary, 'alert-light':light}"
+             v-bind:style="{'font-weight':bold, 'font-size':size}">
+            {{msg}}
+        </div>
+        <div class="form-group">
+            <label for="msg">Alert style:</label>
+            <select class="form-control"
+                    v-model="kind" v-on:change="action">
+                <option>primary</option>
+                <option>light</option>
+            </select>
+        </div>
+    </div>
+</script>
+{% endraw %}
+
+<!-- Vue.js script -->
+<script>
+// mycomp object
+Vue.component('mycomp', {
+    template: '#mycomp-template',
+    data: function(){
+        return {
+            kind:'',
+            bold:false,
+            size:'16pt',
+            primary:false,
+            light:true,
+            msg:'select alert style',
+        };
+    },
+    methods:{
+        action:function(e){
+            if (this.kind == 'primary'){
+                this.bold = true;
+                this.size = '20pt';
+                this.primary = true;
+                this.light = false;
+                this.msg = 'Primary alert';
+            }else{
+                this.bold = false;
+                this.size = '16pt';
+                this.primary = false;
+                this.light = true;
+                this.msg = 'Light alert....'
+            }
+        }
+    }
+});
+// start Vue.
+new Vue({
+    el: '#app',
+})
+</script>
+
+{% endblock %}
+
+{% block footer %}
+<hr>
+copyright 2019
+{% endblock %}
